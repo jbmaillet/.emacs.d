@@ -95,6 +95,11 @@
 ;; Mouse
 (global-set-key [mouse-3] 'imenu) ;; FIXME: OK with C, not C++ (does not jump to method)
 
+;; semantic
+(semantic-mode 1)
+(global-semantic-idle-scheduler-mode 1)
+(global-semanticdb-minor-mode 1)
+
 (defun smart-beginning-of-line ()
   "Move point to first non-whitespace character or beginning-of-line.
 
@@ -143,11 +148,6 @@ If point was already at that position, move point to beginning of line."
 (require 'sr-speedbar)
 (setq sr-speedbar-auto-refresh t)
 (global-set-key (kbd "<f6>") 'sr-speedbar-toggle)
-
-;; semantic
-(semantic-mode 1)
-(global-semantic-idle-scheduler-mode 1)
-(global-semanticdb-minor-mode 1)
 
 ;; completion
 (require 'company)
