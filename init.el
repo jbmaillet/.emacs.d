@@ -155,6 +155,11 @@ If point was already at that position, move point to beginning of line."
 (setq sr-speedbar-auto-refresh t)
 (global-set-key (kbd "<f6>") 'sr-speedbar-toggle)
 
+;; TODO, FIXME etc
+(use-package fic-mode)
+(add-hook 'c-mode-hook 'turn-on-fic-mode)
+(add-hook 'c++-mode-hook 'turn-on-fic-mode)
+
 ;; completion
 (use-package company)
 (add-hook 'after-init-hook 'global-company-mode)
