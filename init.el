@@ -135,28 +135,39 @@ If point was already at that position, move point to beginning of line."
 (let ((default-directory "~/.emacs.d"))
   (normal-top-level-add-subdirs-to-load-path))
 
+;; http://github.com/jwiegley/use-package
+;; - TODO 20151109 tidy configuratiion
+(if (not (package-installed-p 'use-package))
+    (progn
+      (package-refresh-contents)
+      (package-install 'use-package)))
+(require 'use-package)
+;; install packages automatically if not already present on thne system
+(setq use-package-always-ensure t)
+
 ;; A minor mode that guesses the indentation offset originally used for creating source code files
 ;; and transparently adjusts the corresponding settings in Emacs, making it more convenient to edit foreign files.
-(require 'dtrt-indent)
+(use-package dtrt-indent)
 (dtrt-indent-mode 1)
 
-;; column line
+;; speedbar
+(use-package sr-speedbar)
+(setq sr-speedbar-auto-refresh t)
+(global-set-key (kbd "<f6>") 'sr-speedbar-toggle)
+
+;; completion
+(use-package company)
+(add-hook 'after-init-hook 'global-company-mode)
+
+;; Turn on auto complete.
+(require 'auto-complete-config)
+;;(use-package auto-complete-config) ;; 20151109: error: Package `auto-complete-config-' is unavailable
+(ac-config-default)
+
+;; column line (not a package, seperate .el file)
 (require 'fill-column-indicator)
 (setq fci-rule-column 80)
 (setq fci-rule-width 1)
 (setq fci-rule-color "darkblue")
 (add-hook 'c-mode-hook 'fci-mode)
 (add-hook 'c++-mode-hook 'fci-mode)
-
-;; speedbar
-(require 'sr-speedbar)
-(setq sr-speedbar-auto-refresh t)
-(global-set-key (kbd "<f6>") 'sr-speedbar-toggle)
-
-;; completion
-(require 'company)
-(add-hook 'after-init-hook 'global-company-mode)
-
-;; Turn on auto complete.
-(require 'auto-complete-config)
-(ac-config-default)
