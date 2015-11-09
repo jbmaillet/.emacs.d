@@ -9,6 +9,10 @@
 ;; Garbage collection
 (setq gc-cons-threshold (* 20 1024 1024))
 
+;; starts server if not already running
+(load "server")
+(unless (server-running-p) (server-start))
+
 ;; Maximize.
 (custom-set-variables
  '(initial-frame-alist (quote ((fullscreen . maximized)))))
