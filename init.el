@@ -120,12 +120,6 @@ If point was already at that position, move point to beginning of line."
 (global-set-key [home] 'smart-beginning-of-line)
 (global-set-key "\C-a" 'smart-beginning-of-line)
 
-;; keybinding - keep this in one place
-(global-set-key (kbd "RET") 'newline-and-indent) ;; Automatically indent when press RET.
-(global-set-key "\C-z"      'goto-line)          ;; C-z = suspend emacs, useless, remap
-(global-set-key "\C-x\C-b"  'buffer-menu)        ;; Buffer list that does not jump in other window
-(global-set-key "\C-cd"     'kill-whole-line)    ;; "a la vi dd", kill-whole-line
-
 ;; Not built-in
 ;;;;;;;;;;;;;;;
 
@@ -179,3 +173,15 @@ If point was already at that position, move point to beginning of line."
 (setq fci-rule-color "darkblue")
 (add-hook 'c-mode-hook 'fci-mode)
 (add-hook 'c++-mode-hook 'fci-mode)
+
+;; Keybinding - try to keep this in one place
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; From the manual:
+;; http://www.gnu.org/software/emacs/manual/html_node/elisp/Key-Binding-Conventions.html
+;; "Sequences consisting of C-c and a letter (either upper or lower case) are reserved for users"
+;; "Function keys F5 through F9 without modifier keys are also reserved for users to define.""
+
+(global-set-key (kbd "RET") 'newline-and-indent) ;; Automatically indent when press RET.
+(global-set-key "\C-z"      'goto-line)          ;; C-z = suspend emacs, useless, remap.
+(global-set-key "\C-x\C-b"  'buffer-menu)        ;; Buffer list that does not jump in other window.
+(global-set-key "\C-cd"     'kill-whole-line)    ;; "a la vi dd", kill-whole-line.
