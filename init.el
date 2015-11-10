@@ -6,10 +6,10 @@
 ;; Built-in setups.
 ;;;;;;;;;;;;;;;;;;;
 
-;; Garbage collection
+;; Garbage collection.
 (setq gc-cons-threshold (* 20 1024 1024))
 
-;; starts server if not already running
+;; Starts server if not already running.
 (load "server")
 (unless (server-running-p) (server-start))
 
@@ -17,31 +17,34 @@
 (custom-set-variables
  '(initial-frame-alist (quote ((fullscreen . maximized)))))
 
+;; No toolbar.
+(tool-bar-mode -1)
+
 ;; No splashscreen, go directly to scratch buffer.
 (setq inhibit-splash-screen t)
 
-;; Even better, save last session state at exit
+;; Flash screen instead of beeping.
+(setq visible-bell 1)
+
+;; Save last session state at exit.
 ;; (note: default temp file to store desktop status is ~/.emacs.d/.emacs.desktop)
 (desktop-save-mode 1)
 ;; maximum number of buffers to restore immediately (remaining buffers are restored “lazily”, when Emacs is idle)
 (setq desktop-restore-eager 4)
 
-;; For buffers visited but no longer open remeber point position
+;; For buffers visited but no longer open, remember point position.
 (setq save-place-limit 100)
 (setq save-place-file "~/.emacs.d/saved-places")
 (setq-default save-place t)
 (setq save-place-forget-unreadable-files nil)
 (require 'saveplace)
 
-;; No toolbar.
-(tool-bar-mode -1)
+;; Navigate among windows by shift-up, shift-down, shift-left, shift-right.
+(windmove-default-keybindings)
 
 ;; Ubiquitous font, reasonable size.
 (add-to-list 'default-frame-alist
 			 '(font . "DejaVu Sans Mono-10"))
-
-;; Flash screen instead of beeping.
-(setq visible-bell 1)
 
 ;; Show line and column number in the mode line.
 (setq line-number-mode t)
