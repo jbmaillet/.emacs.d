@@ -7,5 +7,6 @@ ede-projects.el
 elpa/
 saved-places
 semanticdb/
+projectile-bookmarks.eld
 *~
 *.elc

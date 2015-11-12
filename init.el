@@ -177,9 +177,10 @@ If point was already at that position, move point to beginning of line."
 ;;;;;;;;;;;;;;;
 
 (require 'package)
-(setq package-archives '(
-			 ("gnu"		.	"http://elpa.gnu.org/packages/")
-			 ("melpa"	.	"http://melpa.org/packages/")))
+(add-to-list 'package-archives
+	     '("gnu" . "http://elpa.gnu.org/packages/"))
+(add-to-list 'package-archives
+             '("melpa" . "https://melpa.org/packages/"))
 (package-initialize)
 
 ;; add subdirs recursively
@@ -187,7 +188,7 @@ If point was already at that position, move point to beginning of line."
   (normal-top-level-add-subdirs-to-load-path))
 
 ;; http://github.com/jwiegley/use-package
-;; - TODO 20151109 tidy configuratiion
+;; TODO 20151109 tidy configuratiion
 (if (not (package-installed-p 'use-package))
     (progn
       (package-refresh-contents)
@@ -214,6 +215,12 @@ If point was already at that position, move point to beginning of line."
 ;; completion
 (use-package company)
 (add-hook 'after-init-hook 'global-company-mode)
+
+;; projectile
+(use-package projectile)
+(projectile-global-mode 1)
+(setq projectile-indexing-method 'native) ; this also enable caching
+(setq projectile-completion-system 'default)
 
 ;; Turn on auto complete.
 ;;(require 'auto-complete-config) ;; 20151111: definitely broken?
@@ -246,8 +253,8 @@ If point was already at that position, move point to beginning of line."
 
 ;; Cheat sheet - things I tend to forget
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; M-g g    goto line #
-;; M-^      join line, "a la vi J
+;; M-g g    goto line
+;; M-^      join line
 ;; On xfce, disable the C-M for this:
 ;; C-M-f    Move forward over a balanced expression (forward-sexp).
 ;; C-M-b    Move backward over a balanced expression (backward-sexp).
@@ -260,3 +267,7 @@ If point was already at that position, move point to beginning of line."
 ;; C-x 5 o  Swith frame
 ;; semantic:
 ;; semantic-symref
+;; projectile:
+;; C-c p s g Run grep on the files in the project.
+;; C-c p r   Runs interactive query-replace on all files in the projects.
+;; C-c p p   display a list of known projects you can switch to.
