@@ -32,6 +32,11 @@
 ;; maximum number of buffers to restore immediately (remaining buffers are restored “lazily”, when Emacs is idle)
 (setq desktop-restore-eager 4)
 
+;; Add recent files to the 'File' menu.
+(require 'recentf)
+(recentf-mode 1)
+(setq recentf-max-menu-items 25)
+
 ;; For buffers visited but no longer open, remember point position.
 (setq save-place-limit 100)
 (setq save-place-file "~/.emacs.d/saved-places")
@@ -53,11 +58,14 @@
 ;; Highlight cursor line.
 (global-hl-line-mode t)
 
+;; Sentences end with one space.
+(setq sentence-end-double-space nil)
+
 ;; Stop forcing me to spell out "yes".
 (fset 'yes-or-no-p 'y-or-n-p)
 
 ;; Undo level.
-(setq undo-limit 100)
+(setq undo-limit 160000) ; default value 80000
 
 ;; Wrap (do not truncate) long lines when using split window.
 (setq truncate-partial-width-windows nil)
@@ -72,7 +80,7 @@
 ;; When point is on one of the paired characters, the other is highlighted.
 (show-paren-mode 1)
 ;; Highlight entire bracket expression.
-(setq show-paren-style 'expression)
+;; (setq show-paren-style 'expression) ;; not so useful
 
 ;; Unicode / UTF-8
 (set-language-environment "UTF-8")
@@ -88,15 +96,17 @@
 
 ;; Indentation:
 (setq c-default-style "linux")
-;; Set appearance of a tab to 4 spaces.
-(setq-default tab-width 4)
+;; Set appearance of a tab to 8 spaces.
+(setq-default c-basic-offset 8
+			  tab-width 8
+			  indent-tabs-mode t)
 
 ;; Highlights suspicious C and C++ constructions.
-;; (global-cwarn-mode 1) ;; no so useful
+;; (global-cwarn-mode 1) ;; not so useful
 
 ;; Color theme: most don't get along well with global-hl-line-mode
-(load-theme 'leuven t) ;; light
-;;(load-theme 'tango t) ;; light
+;;(load-theme 'leuven t) ;; light
+(load-theme 'tango t) ;; light
 ;;(load-theme 'tsdh-dark t) ;; dark but OK
 
 ;; Mouse
@@ -124,8 +134,9 @@ If point was already at that position, move point to beginning of line."
 ;;;;;;;;;;;;;;;
 
 (require 'package)
-(setq package-archives '(("gnu"		.	"http://elpa.gnu.org/packages/")
-						 ("melpa"	.	"http://melpa.org/packages/")))
+(setq package-archives '(
+			 ("gnu"		.	"http://elpa.gnu.org/packages/")
+			 ("melpa"	.	"http://melpa.org/packages/")))
 (package-initialize)
 
 ;; add subdirs recursively
@@ -162,9 +173,13 @@ If point was already at that position, move point to beginning of line."
 (add-hook 'after-init-hook 'global-company-mode)
 
 ;; Turn on auto complete.
-(require 'auto-complete-config)
+;(require 'auto-complete-config)
 ;;(use-package auto-complete-config) ;; 20151109: error: Package `auto-complete-config-' is unavailable
-(ac-config-default)
+;(ac-config-default)
+
+;; Tip of the day.
+;(use-package totd)
+;(totd-start)
 
 ;; column line (not a package, seperate .el file)
 (require 'fill-column-indicator)
@@ -179,9 +194,19 @@ If point was already at that position, move point to beginning of line."
 ;; From the manual:
 ;; http://www.gnu.org/software/emacs/manual/html_node/elisp/Key-Binding-Conventions.html
 ;; "Sequences consisting of C-c and a letter (either upper or lower case) are reserved for users"
-;; "Function keys F5 through F9 without modifier keys are also reserved for users to define.""
+;; "Function keys F5 through F9 without modifier keys are also reserved for users to define."
 
 (global-set-key (kbd "RET") 'newline-and-indent) ;; Automatically indent when press RET.
 (global-set-key "\C-z"      'goto-line)          ;; C-z = suspend emacs, useless, remap.
 (global-set-key "\C-x\C-b"  'buffer-menu)        ;; Buffer list that does not jump in other window.
 (global-set-key "\C-cd"     'kill-whole-line)    ;; "a la vi dd", kill-whole-line.
+
+;; Cheat sheet - things I tend to forget
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; M-g g    goto line #
+;; M-^      join line, ""a la vi J""
+;; On xfce, disable the C-M for this:
+;; C-M-n    Move forward over a parenthetical group (forward-list).
+;; C-M-p    Move backward over a parenthetical group (backward-list).
+;; C-M-u    Move up in parenthesis structure (backward-up-list).
+;; C-M-d    Move down in parenthesis structure (down-list).
