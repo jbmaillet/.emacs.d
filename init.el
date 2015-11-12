@@ -20,7 +20,7 @@
 ;; No toolbar.
 (tool-bar-mode -1)
 
-;; No splashscreen, go directly to scratch buffer.
+;; No splashscreen.
 (setq inhibit-splash-screen t)
 
 ;; Flash screen instead of beeping.
@@ -43,6 +43,9 @@
 (setq-default save-place t)
 (setq save-place-forget-unreadable-files nil)
 (require 'saveplace)
+
+;; Ignore case when using completion for file names.
+(setq read-file-name-completion-ignore-case t)
 
 ;; Navigate among windows by shift-up, shift-down, shift-left, shift-right.
 (windmove-default-keybindings)
@@ -86,8 +89,14 @@
 (set-language-environment "UTF-8")
 (set-default-coding-systems 'utf-8)
 
-;; Ensure files have no trailing whitespace, including blank lines at EOF, when saved.
-(setq-default show-trailing-whitespace t)
+;; Visualize trailing whitespace...
+(setq show-trailing-whitespace t)
+;; ...but disable it in certain modes where it doesn't make sense.
+(add-hook 'buffer-menu-mode-hook (lambda () (setq show-trailing-whitespace nil)))
+(add-hook 'shell-mode-hook (lambda () (setq show-trailing-whitespace nil)))
+
+;; Require a newline at the end of files.
+(setq require-final-newline t)
 
 ;; Never used this in years
 (setq make-backup-files         nil) ; Don't want any backup files
@@ -173,9 +182,9 @@ If point was already at that position, move point to beginning of line."
 (add-hook 'after-init-hook 'global-company-mode)
 
 ;; Turn on auto complete.
-;(require 'auto-complete-config)
+;;(require 'auto-complete-config) ;; 20151111: definitely broken?
 ;;(use-package auto-complete-config) ;; 20151109: error: Package `auto-complete-config-' is unavailable
-;(ac-config-default)
+;:(ac-config-default)
 
 ;; Tip of the day.
 ;(use-package totd)
