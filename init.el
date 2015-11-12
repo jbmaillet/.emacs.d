@@ -129,7 +129,8 @@
 
 ;; shell: do not open a new window with the list of completions, use company instead.
 (add-hook 'shell-mode-hook #'company-mode)
-(define-key shell-mode-map (kbd "TAB") #'company-manual-begin)
+(eval-after-load 'shell-mode
+  '(define-key shell-mode-map (kbd "TAB") #'company-manual-begin))
 
 ;; term: always use bash
 (defvar my-term-shell "/bin/bash")
@@ -234,9 +235,14 @@ If point was already at that position, move point to beginning of line."
 ;; Cheat sheet - things I tend to forget
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; M-g g    goto line #
-;; M-^      join line, ""a la vi J""
+;; M-^      join line, "a la vi J
 ;; On xfce, disable the C-M for this:
+;; C-M-f    Move forward over a balanced expression (forward-sexp).
+;; C-M-b    Move backward over a balanced expression (backward-sexp).
 ;; C-M-n    Move forward over a parenthetical group (forward-list).
 ;; C-M-p    Move backward over a parenthetical group (backward-list).
 ;; C-M-u    Move up in parenthesis structure (backward-up-list).
 ;; C-M-d    Move down in parenthesis structure (down-list).
+;; Dual screen:
+;; C-x 5 2  New frame
+;; C-x 5 o  Swith frame
