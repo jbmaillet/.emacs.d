@@ -94,6 +94,7 @@
 ;; ...but disable it in certain modes where it doesn't make sense.
 (add-hook 'buffer-menu-mode-hook (lambda () (setq show-trailing-whitespace nil)))
 (add-hook 'shell-mode-hook (lambda () (setq show-trailing-whitespace nil)))
+(add-hook 'term-mode-hook (lambda () (setq show-trailing-whitespace nil)))
 
 ;; Require a newline at the end of files.
 (setq require-final-newline t)
@@ -125,6 +126,26 @@
 (semantic-mode 1)
 (global-semantic-idle-scheduler-mode 1)
 (global-semanticdb-minor-mode 1)
+
+;; shell: do not open a new window with the list of completions, use company instead.
+(add-hook 'shell-mode-hook #'company-mode)
+(define-key shell-mode-map (kbd "TAB") #'company-manual-begin)
+
+;; term: always use bash
+(defvar my-term-shell "/bin/bash")
+(defadvice ansi-term (before force-bash)
+  (interactive (list my-term-shell)))
+(ad-activate 'ansi-term)
+
+;; Functions
+;;;;;;;;;;;;
+
+;; No prompt for "...has a running process” on killing term
+(defun set-no-process-query-on-exit ()
+  (let ((proc (get-buffer-process (current-buffer))))
+    (when (processp proc)
+      (set-process-query-on-exit-flag proc nil))))
+(add-hook 'term-exec-hook 'set-no-process-query-on-exit) ;; TODO 20151112 same for shell-mode
 
 (defun smart-beginning-of-line ()
   "Move point to first non-whitespace character or beginning-of-line.
