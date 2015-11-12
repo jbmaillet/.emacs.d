@@ -123,6 +123,7 @@
 (global-set-key [mouse-3] 'imenu) ;; FIXME: OK with C, not C++ (does not jump to method)
 
 ;; semantic
+;; See http://alexott.net/en/writings/emacs-devenv/EmacsCedet.html
 (semantic-mode 1)
 (global-semantic-idle-scheduler-mode 1)
 (global-semanticdb-minor-mode 1)
@@ -137,6 +138,17 @@
 (defadvice ansi-term (before force-bash)
   (interactive (list my-term-shell)))
 (ad-activate 'ansi-term)
+
+;; Example config for Qt:
+;(setq auto-mode-alist (cons '("\\.ui\\'" . xml-mode) auto-mode-alist)) ; ui file as XML
+;(add-to-list 'auto-mode-alist
+;	     '("/usr/include/qt4" . c++-mode))
+;(semantic-add-system-include
+; "/usr/include/qt4" 'c++-mode)
+;(add-to-list 'semantic-lex-c-preprocessor-symbol-file
+;	     "/usr/include/qt4/Qt/qconfig.h")
+;(add-to-list 'semantic-lex-c-preprocessor-symbol-file
+;	     "/usr/include/qt4/Qt/qconfig-dist.h")
 
 ;; Functions
 ;;;;;;;;;;;;
@@ -246,3 +258,5 @@ If point was already at that position, move point to beginning of line."
 ;; Dual screen:
 ;; C-x 5 2  New frame
 ;; C-x 5 o  Swith frame
+;; semantic:
+;; semantic-symref
