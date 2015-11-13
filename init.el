@@ -186,7 +186,6 @@ header"
       (c++-mode))))
 (add-to-list 'auto-mode-alist '("\\.h\\'" . c-c++-header))
 
-;; toggle between c-mode and c++-mode
 (defun c-c++-toggle ()
   "toggles between c-mode and c++-mode"
   (interactive)
@@ -194,6 +193,22 @@ header"
          (c++-mode))
         ((string= major-mode "c++-mode")
          (c-mode))))
+
+(defun bury-compile-buffer-if-successful (buffer string)
+  "Bury a compilation buffer if succeeded without warnings "
+  (if (and
+       (string-match "compilation" (buffer-name buffer))
+       (string-match "finished" string)
+       (not
+        (with-current-buffer buffer
+          (goto-char 1)
+          (search-forward "warning" nil t))))
+      (run-with-timer 1 nil
+                      (lambda (buf)
+                        (bury-buffer buf)
+                        (switch-to-prev-buffer (get-buffer-window buf) 'kill))
+                      buffer)))
+(add-hook 'compilation-finish-functions 'bury-compile-buffer-if-successful)
 
 ;; Not built-in
 ;;;;;;;;;;;;;;;
