@@ -314,6 +314,11 @@ header"
   :ensure t
   :defer t)
 
+(use-package magit-filenotify
+  :ensure t
+  :defer t)
+(add-hook 'magit-status-mode-hook 'magit-filenotify-mode)
+
 ;; column line (not a package, seperate .el file)
 (require 'fill-column-indicator)
 (setq fci-rule-column 80)
