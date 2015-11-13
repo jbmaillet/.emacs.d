@@ -1,10 +1,11 @@
 ;; -*- emacs-lisp -*-
 ;; ~/.emacs.d/init.el
+;; http://github.com/jbmaillet/.emacs.d
 ;; see:
 ;; http://tuhdo.github.io/emacs-tutor.html
 
 ;; Built-in setups.
-;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; Garbage collection.
 (setq gc-cons-threshold (* 20 1024 1024))
@@ -18,23 +19,22 @@
  '(initial-frame-alist (quote ((fullscreen . maximized)))))
 
 ;; No toolbar.
-(tool-bar-mode -1)
+(tool-bar-mode nil)
 
 ;; No splashscreen.
 (setq inhibit-splash-screen t)
 
 ;; Flash screen instead of beeping.
-(setq visible-bell 1)
+(setq visible-bell t)
 
 ;; Save last session state at exit.
-;; (note: default temp file to store desktop status is ~/.emacs.d/.emacs.desktop)
-(desktop-save-mode 1)
-;; Maximum number of buffers to restore immediately (remaining buffers are restored “lazily”, when Emacs is idle).
+;; note: default temp file is ~/.emacs.d/.emacs.desktop)
+(desktop-save-mode t)
+;; Maximum number of buffers to restore immediately. Remaining buffers are restored “lazily”, when Emacs is idle.
 (setq desktop-restore-eager 4)
 
 ;; Add recent files to the 'File' menu.
-(require 'recentf)
-(recentf-mode 1)
+(recentf-mode t)
 (setq recentf-max-menu-items 25)
 
 ;; For buffers visited but no longer open, remember point position.
@@ -42,7 +42,6 @@
 (setq save-place-file "~/.emacs.d/saved-places")
 (setq-default save-place t)
 (setq save-place-forget-unreadable-files nil)
-(require 'saveplace)
 
 ;; Ignore case when using completion for file names.
 (setq read-file-name-completion-ignore-case t)
@@ -76,14 +75,9 @@
 ;; Syntax highlighting.
 (setq global-font-lock-mode t)
 
-;; Autocomplete paired brackets.
-(electric-pair-mode 1)
-
 ;; See matching pairs of parentheses and other characters.
 ;; When point is on one of the paired characters, the other is highlighted.
-(show-paren-mode 1)
-;; Highlight entire bracket expression.
-;; (setq show-paren-style 'expression) ;; not so useful
+(show-paren-mode t)
 
 ;; Unicode / UTF-8
 (set-language-environment "UTF-8")
@@ -107,6 +101,8 @@
 ;; Interactively DO things:
 (setq ido-enable-flex-matching t)
 (setq ido-everywhere t)
+(setq ido-file-extensions-order     '(".c" ".h" ".cpp" ".sh"))
+(setq completion-ignored-extensions '(".o" ".elc" "~" ".a" ".so"))
 (ido-mode 1)
 
 ;; Indentation:
@@ -116,22 +112,19 @@
 			  tab-width 8
 			  indent-tabs-mode t)
 
-;; Highlights suspicious C and C++ constructions.
-;; (global-cwarn-mode 1) ;; not so useful
-
 ;; Color theme: most don't get along well with global-hl-line-mode
 (load-theme 'leuven t) ;; light
 ;;(load-theme 'tango t) ;; light, but does not handle transient mark mode correctly
 ;;(load-theme 'tsdh-dark t) ;; dark but OK
 
 ;; Mouse
-(global-set-key [mouse-3] 'imenu) ;; FIXME: OK with C, not C++ (does not jump to method)
+(global-set-key [mouse-3] 'imenu) ;; FIXME OK with C, not C++ (example does not jump to method)
 
 ;; semantic
 ;; See http://alexott.net/en/writings/emacs-devenv/EmacsCedet.html
-(semantic-mode 1)
-(global-semantic-idle-scheduler-mode 1)
-(global-semanticdb-minor-mode 1)
+(semantic-mode t)
+(global-semantic-idle-scheduler-mode t)
+(global-semanticdb-minor-mode t)
 
 ;; shell: do not open a new window with the list of completions, use company instead.
 (add-hook 'shell-mode-hook #'company-mode)
@@ -144,6 +137,9 @@
   (interactive (list my-term-shell)))
 (ad-activate 'ansi-term)
 
+;; ibuffer auto-refresh
+(add-hook 'ibuffer-mode-hook (lambda () (ibuffer-auto-mode t)))
+
 ;; Example config for Qt:
 ;(setq auto-mode-alist (cons '("\\.ui\\'" . xml-mode) auto-mode-alist)) ; ui file as XML
 ;(add-to-list 'auto-mode-alist
@@ -155,8 +151,30 @@
 ;(add-to-list 'semantic-lex-c-preprocessor-symbol-file
 ;	     "/usr/include/qt4/Qt/qconfig-dist.h")
 
+;; init.el trash - stuff I tried, didn't like, but may worth another try
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Autocomplete paired brackets.
+; (electric-pair-mode t)
+
+;; Highlight entire bracket expression.
+; (setq show-paren-style 'expression)
+
+;; Highlights suspicious C and C++ constructions.
+; (global-cwarn-mode t)
+
+;; Tip of the day.
+;(use-package totd)
+;(totd-start)
+
 ;; Functions
-;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defun top-join-line ()
+  "Join the current line with the line beneath it."
+  (interactive)
+  (delete-indentation 1))
+(global-set-key (kbd "C-^") 'top-join-line)
 
 ;; No prompt for "...has a running process” on killing term
 (defun set-no-process-query-on-exit ()
@@ -178,7 +196,7 @@ If point was already at that position, move point to beginning of line."
 (global-set-key [home] 'smart-beginning-of-line)
 (global-set-key "\C-a" 'smart-beginning-of-line)
 
-;; decides whether .h file is C or C++ header, sets C++ by default
+;; Decides whether .h file is C or C++ header, sets C++ by default
 ;; because there's more chance of there being a .h without a .cc
 ;; than a .h without a .c (ie. for C++ template files)
 (defun c-c++-header ()
@@ -216,7 +234,7 @@ header"
 (add-hook 'compilation-finish-functions 'bury-compile-buffer-if-successful)
 
 ;; Not built-in
-;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (require 'package)
 (add-to-list 'package-archives
@@ -225,7 +243,7 @@ header"
              '("melpa" . "https://melpa.org/packages/"))
 (package-initialize)
 
-;; add subdirs recursively
+;; Add subdirs recursively
 (let ((default-directory "~/.emacs.d"))
   (normal-top-level-add-subdirs-to-load-path))
 
@@ -236,7 +254,7 @@ header"
       (package-refresh-contents)
       (package-install 'use-package)))
 (require 'use-package)
-;; install packages automatically if not already present on thne system
+;; Install packages automatically if not already present on thne system
 (setq use-package-always-ensure t)
 
 ;; A minor mode that guesses the indentation offset originally used for creating source code files
@@ -244,12 +262,12 @@ header"
 (use-package dtrt-indent)
 (dtrt-indent-mode 1)
 
-;; speedbar
+;; A better speedbar
 (use-package sr-speedbar)
 (setq sr-speedbar-auto-refresh t)
 (global-set-key (kbd "<f6>") 'sr-speedbar-toggle)
 
-;; TODO, FIXME etc
+;; Show FIXME/TODO/BUG/KLUDGE in special face only in comments and strings
 (use-package fic-mode)
 (add-hook 'c-mode-hook 'turn-on-fic-mode)
 (add-hook 'c++-mode-hook 'turn-on-fic-mode)
@@ -273,6 +291,7 @@ header"
         (ibuffer-do-sort-by-alphabetic))))
 
 ;; Version control status info in ibuffer list
+;; note: ibuffer-auto-mode (auto-refresh) must be on for this to work
 (use-package ibuffer-vc)
 (setq ibuffer-formats
       '((mark modified read-only vc-status-mini " "
@@ -291,10 +310,6 @@ header"
 ;;(use-package auto-complete-config) ;; 20151109: error: Package `auto-complete-config-' is unavailable
 ;:(ac-config-default)
 
-;; Tip of the day.
-;(use-package totd)
-;(totd-start)
-
 ;; column line (not a package, seperate .el file)
 (require 'fill-column-indicator)
 (setq fci-rule-column 80)
@@ -304,7 +319,7 @@ header"
 (add-hook 'c++-mode-hook 'fci-mode)
 
 ;; Keybinding - try to keep this in one place
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; From the manual:
 ;; http://www.gnu.org/software/emacs/manual/html_node/elisp/Key-Binding-Conventions.html
 ;; "Sequences consisting of C-c and a letter (either upper or lower case) are reserved for users"
@@ -317,22 +332,22 @@ header"
 (global-set-key "\C-cd"     'kill-whole-line)    ;; "a la vi dd", kill-whole-line.
 
 ;; Cheat sheet - things I tend to forget
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; M-g g    goto line
-;; M-^      join line
+;; M-^      join line (bottom to top), and see above func+keybind C-^ (to to bottom)
 ;; On xfce, disable the C-M for this:
-;; C-M-f    Move forward over a balanced expression (forward-sexp).
-;; C-M-b    Move backward over a balanced expression (backward-sexp).
-;; C-M-n    Move forward over a parenthetical group (forward-list).
-;; C-M-p    Move backward over a parenthetical group (backward-list).
-;; C-M-u    Move up in parenthesis structure (backward-up-list).
-;; C-M-d    Move down in parenthesis structure (down-list).
+;; C-M-f    move forward over a balanced expression (forward-sexp).
+;; C-M-b    move backward over a balanced expression (backward-sexp).
+;; C-M-n    move forward over a parenthetical group (forward-list).
+;; C-M-p    move backward over a parenthetical group (backward-list).
+;; C-M-u    move up in parenthesis structure (backward-up-list).
+;; C-M-d    move down in parenthesis structure (down-list).
 ;; Dual screen:
-;; C-x 5 2  New frame
-;; C-x 5 o  Swith frame
+;; C-x 5 2  new frame
+;; C-x 5 o  swith frame
 ;; semantic:
 ;; semantic-symref
 ;; projectile:
-;; C-c p s g Run grep on the files in the project.
-;; C-c p r   Runs interactive query-replace on all files in the projects.
+;; C-c p s g run grep on the files in the project.
+;; C-c p r   runs interactive query-replace on all files in the projects.
 ;; C-c p p   display a list of known projects you can switch to.
