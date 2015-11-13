@@ -310,6 +310,10 @@ header"
 ;;(use-package auto-complete-config) ;; 20151109: error: Package `auto-complete-config-' is unavailable
 ;:(ac-config-default)
 
+(use-package magit
+  :ensure t
+  :defer t)
+
 ;; column line (not a package, seperate .el file)
 (require 'fill-column-indicator)
 (setq fci-rule-column 80)
