@@ -29,7 +29,7 @@
 ;; Save last session state at exit.
 ;; (note: default temp file to store desktop status is ~/.emacs.d/.emacs.desktop)
 (desktop-save-mode 1)
-;; maximum number of buffers to restore immediately (remaining buffers are restored “lazily”, when Emacs is idle)
+;; Maximum number of buffers to restore immediately (remaining buffers are restored “lazily”, when Emacs is idle).
 (setq desktop-restore-eager 4)
 
 ;; Add recent files to the 'File' menu.
@@ -115,8 +115,8 @@
 ;; (global-cwarn-mode 1) ;; not so useful
 
 ;; Color theme: most don't get along well with global-hl-line-mode
-;;(load-theme 'leuven t) ;; light
-(load-theme 'tango t) ;; light
+(load-theme 'leuven t) ;; light
+;;(load-theme 'tango t) ;; light, but does not handle transient mark mode correctly
 ;;(load-theme 'tsdh-dark t) ;; dark but OK
 
 ;; Mouse
@@ -172,6 +172,28 @@ If point was already at that position, move point to beginning of line."
          (beginning-of-line))))
 (global-set-key [home] 'smart-beginning-of-line)
 (global-set-key "\C-a" 'smart-beginning-of-line)
+
+;; decides whether .h file is C or C++ header, sets C++ by default
+;; because there's more chance of there being a .h without a .cc
+;; than a .h without a .c (ie. for C++ template files)
+(defun c-c++-header ()
+  "sets either c-mode or c++-mode, whichever is appropriate for
+header"
+  (interactive)
+  (let ((c-file (concat (substring (buffer-file-name) 0 -1) "c")))
+    (if (file-exists-p c-file)
+        (c-mode)
+      (c++-mode))))
+(add-to-list 'auto-mode-alist '("\\.h\\'" . c-c++-header))
+
+;; toggle between c-mode and c++-mode
+(defun c-c++-toggle ()
+  "toggles between c-mode and c++-mode"
+  (interactive)
+  (cond ((string= major-mode "c-mode")
+         (c++-mode))
+        ((string= major-mode "c++-mode")
+         (c-mode))))
 
 ;; Not built-in
 ;;;;;;;;;;;;;;;
