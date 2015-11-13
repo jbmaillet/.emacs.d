@@ -264,6 +264,28 @@ header"
 (setq projectile-indexing-method 'native) ; this also enable caching
 (setq projectile-completion-system 'default)
 
+;; Group buffers in ibuffer list by projectile project.
+(use-package ibuffer-projectile)
+(add-hook 'ibuffer-hook
+    (lambda ()
+      (ibuffer-projectile-set-filter-groups)
+      (unless (eq ibuffer-sorting-mode 'alphabetic)
+        (ibuffer-do-sort-by-alphabetic))))
+
+;; Version control status info in ibuffer list
+(use-package ibuffer-vc)
+(setq ibuffer-formats
+      '((mark modified read-only vc-status-mini " "
+	      (name 18 18 :left :elide)
+	      " "
+	      (size 9 -1 :right)
+	      " "
+	      (mode 16 16 :left :elide)
+	      " "
+	      (vc-status 16 16 :left)
+	      " "
+	      filename-and-process)))
+
 ;; Turn on auto complete.
 ;;(require 'auto-complete-config) ;; 20151111: definitely broken?
 ;;(use-package auto-complete-config) ;; 20151109: error: Package `auto-complete-config-' is unavailable
