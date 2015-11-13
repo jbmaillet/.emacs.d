@@ -104,6 +104,11 @@
 (setq auto-save-list-file-name  nil) ; Don't want any .saves files
 (setq auto-save-default         nil) ; Don't want any auto saving
 
+;; Interactively DO things:
+(setq ido-enable-flex-matching t)
+(setq ido-everywhere t)
+(ido-mode 1)
+
 ;; Indentation:
 (setq c-default-style "linux")
 ;; Set appearance of a tab to 8 spaces.
@@ -285,7 +290,8 @@ header"
 
 (global-set-key (kbd "RET") 'newline-and-indent) ;; Automatically indent when press RET.
 (global-set-key "\C-z"      'goto-line)          ;; C-z = suspend emacs, useless, remap.
-(global-set-key "\C-x\C-b"  'buffer-menu)        ;; Buffer list that does not jump in other window.
+;(global-set-key "\C-x\C-b"  'buffer-menu)        ;; Buffer list that does not jump in other window.
+(global-set-key "\C-x\C-b"  'ibuffer)        ;; Buffer list that does not jump in other window.
 (global-set-key "\C-cd"     'kill-whole-line)    ;; "a la vi dd", kill-whole-line.
 
 ;; Cheat sheet - things I tend to forget
