@@ -19,7 +19,7 @@
  '(initial-frame-alist (quote ((fullscreen . maximized)))))
 
 ;; No toolbar.
-(tool-bar-mode nil)
+(tool-bar-mode -1)
 
 ;; No splashscreen.
 (setq inhibit-splash-screen t)
@@ -136,6 +136,11 @@
 (defadvice ansi-term (before force-bash)
   (interactive (list my-term-shell)))
 (ad-activate 'ansi-term)
+
+;; “Active processes exist; kill them and exit anyway?” YES
+;; (magit)
+(add-hook 'comint-exec-hook
+	  (lambda () (set-process-query-on-exit-flag (get-buffer-process (current-buffer)) nil)))
 
 ;; ibuffer auto-refresh
 (add-hook 'ibuffer-mode-hook (lambda () (ibuffer-auto-mode t)))
