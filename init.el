@@ -247,8 +247,6 @@ header"
 (let ((default-directory "~/.emacs.d"))
   (normal-top-level-add-subdirs-to-load-path))
 
-;; http://github.com/jwiegley/use-package
-;; TODO 20151109 tidy configuratiion
 (if (not (package-installed-p 'use-package))
     (progn
       (package-refresh-contents)
@@ -259,65 +257,70 @@ header"
 
 ;; A minor mode that guesses the indentation offset originally used for creating source code files
 ;; and transparently adjusts the corresponding settings in Emacs, making it more convenient to edit foreign files.
-(use-package dtrt-indent)
-(dtrt-indent-mode 1)
+(use-package dtrt-indent
+  :config
+  (dtrt-indent-mode 1))
 
 ;; A better speedbar
-(use-package sr-speedbar)
-(setq sr-speedbar-auto-refresh t)
-(global-set-key (kbd "<f6>") 'sr-speedbar-toggle)
+(use-package sr-speedbar
+  :init
+  (setq sr-speedbar-auto-refresh t)
+  (global-set-key (kbd "<f6>") 'sr-speedbar-toggle))
 
 ;; Show FIXME/TODO/BUG/KLUDGE in special face only in comments and strings
-(use-package fic-mode)
-(add-hook 'c-mode-hook 'turn-on-fic-mode)
-(add-hook 'c++-mode-hook 'turn-on-fic-mode)
+(use-package fic-mode
+  :init
+  (add-hook 'c-mode-hook 'turn-on-fic-mode)
+  (add-hook 'c++-mode-hook 'turn-on-fic-mode))
 
 ;; completion
-(use-package company)
-(add-hook 'after-init-hook 'global-company-mode)
+(use-package company
+  :init
+  (add-hook 'after-init-hook 'global-company-mode))
 
 ;; projectile
-(use-package projectile)
-(projectile-global-mode 1)
-(setq projectile-indexing-method 'native) ; this also enable caching
-(setq projectile-completion-system 'default)
+(use-package projectile
+  :config
+  (projectile-global-mode 1)
+  :init
+  (setq projectile-indexing-method 'native) ; this also enable caching
+  (setq projectile-completion-system 'default))
 
-;; Group buffers in ibuffer list by projectile project.
-(use-package ibuffer-projectile)
-(add-hook 'ibuffer-hook
-    (lambda ()
-      (ibuffer-projectile-set-filter-groups)
-      (unless (eq ibuffer-sorting-mode 'alphabetic)
-        (ibuffer-do-sort-by-alphabetic))))
+(use-package ibuffer-projectile
+  :init
+  ;; Group buffers in ibuffer list by projectile project.
+  (add-hook 'ibuffer-hook
+	    (lambda ()
+	      (ibuffer-projectile-set-filter-groups)
+	      (unless (eq ibuffer-sorting-mode 'alphabetic)
+		(ibuffer-do-sort-by-alphabetic)))))
 
-;; Version control status info in ibuffer list
-;; note: ibuffer-auto-mode (auto-refresh) must be on for this to work
-(use-package ibuffer-vc)
-(setq ibuffer-formats
-      '((mark modified read-only vc-status-mini " "
-	      (name 18 18 :left :elide)
-	      " "
-	      (size 9 -1 :right)
-	      " "
-	      (mode 16 16 :left :elide)
-	      " "
-	      (vc-status 16 16 :left)
-	      " "
-	      filename-and-process)))
+(use-package ibuffer-vc
+  :init
+  ;; Version control status info in ibuffer list
+  ;; note: ibuffer-auto-mode (auto-refresh) must be on for this to work correctly
+  (setq ibuffer-formats
+	'((mark modified read-only vc-status-mini " "
+		(name 18 18 :left :elide)
+		" "
+		(size 9 -1 :right)
+		" "
+		(mode 16 16 :left :elide)
+		" "
+		(vc-status 16 16 :left)
+		" "
+		filename-and-process))))
 
 ;; Turn on auto complete.
 ;;(require 'auto-complete-config) ;; 20151111: definitely broken?
 ;;(use-package auto-complete-config) ;; 20151109: error: Package `auto-complete-config-' is unavailable
 ;:(ac-config-default)
 
-(use-package magit
-  :ensure t
-  :defer t)
+(use-package magit)
 
 (use-package magit-filenotify
-  :ensure t
-  :defer t)
-(add-hook 'magit-status-mode-hook 'magit-filenotify-mode)
+  :init
+  (add-hook 'magit-status-mode-hook 'magit-filenotify-mode))
 
 ;; column line (not a package, seperate .el file)
 (require 'fill-column-indicator)
