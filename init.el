@@ -335,6 +335,10 @@ header"
 (add-hook 'c-mode-hook 'fci-mode)
 (add-hook 'c++-mode-hook 'fci-mode)
 
+;; handle vim modeline in Emacs (not a package, seperate .el file)
+(require 'vim-modeline)
+(add-to-list 'find-file-hook 'vim-modeline/do)
+
 ;; Keybinding - try to keep this in one place
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; From the manual:
