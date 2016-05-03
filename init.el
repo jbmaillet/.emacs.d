@@ -336,8 +336,9 @@ header"
 (add-hook 'c++-mode-hook 'fci-mode)
 
 ;; handle vim modeline in Emacs (not a package, seperate .el file)
-(require 'vim-modeline)
-(add-to-list 'find-file-hook 'vim-modeline/do)
+;; OK when there is a vim modeline, but seems to break indentation when no modeline at all (neither emacs nor vim)?
+;;(require 'vim-modeline)
+;;(add-to-list 'find-file-hook 'vim-modeline/do)
 
 ;; Keybinding - try to keep this in one place
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
