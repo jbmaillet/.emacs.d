@@ -327,6 +327,15 @@ header"
   :init
   (add-hook 'magit-status-mode-hook 'magit-filenotify-mode))
 
+;; http://jblevins.org/projects/markdown-mode/
+(use-package markdown-mode
+  :ensure t
+  :commands (markdown-mode gfm-mode)
+  :mode (("README\\.md\\'" . gfm-mode)
+         ("\\.md\\'" . markdown-mode)
+         ("\\.markdown\\'" . markdown-mode))
+  :init (setq markdown-command "multimarkdown"))
+
 ;; column line (not a package, seperate .el file)
 (require 'fill-column-indicator)
 (setq fci-rule-column 80)
