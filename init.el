@@ -343,6 +343,7 @@ header"
 (setq fci-rule-color "darkblue")
 (add-hook 'c-mode-hook 'fci-mode)
 (add-hook 'c++-mode-hook 'fci-mode)
+(add-hook 'python-mode-hook 'fci-mode)
 
 ;; handle vim modeline in Emacs (not a package, seperate .el file)
 ;; OK when there is a vim modeline, but seems to break indentation when no modeline at all (neither emacs nor vim)?
