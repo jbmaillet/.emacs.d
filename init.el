@@ -14,8 +14,9 @@
 (load "server")
 (unless (server-running-p) (server-start))
 
-;; Maximize.
+;; Maximize + dark background
 (custom-set-variables
+ '(frame-background-mode (quote dark))
  '(initial-frame-alist (quote ((fullscreen . maximized)))))
 
 ;; No toolbar.
@@ -113,7 +114,7 @@
 			  indent-tabs-mode t)
 
 ;; Color theme: most don't get along well with global-hl-line-mode
-(load-theme 'leuven t) ;; light
+;; (load-theme 'leuven t) ;; light
 ;;(load-theme 'tango t) ;; light, but does not handle transient mark mode correctly
 ;;(load-theme 'tsdh-dark t) ;; dark but OK
 
@@ -257,8 +258,26 @@ header"
       (package-refresh-contents)
       (package-install 'use-package)))
 (require 'use-package)
-;; Install packages automatically if not already present on thne system
+;; Install packages automatically if not already present on the system
 (setq use-package-always-ensure t)
+
+;; Solarized
+;; For screenshots, details and colorscheme versions for Vim, Mutt,
+;; popular terminal emulators and other applications:
+;; http://ethanschoonover.com/solarized
+;; https://github.com/altercation/solarized
+;; Solarized Emacs setup:
+;; https://github.com/sellout/emacs-color-theme-solarized/pull/187
+(setq color-themes '())
+(use-package color-theme-solarized
+  :config
+  (customize-set-variable 'frame-background-mode 'dark)
+(load-theme 'solarized t))
+;; To switch between the light and dark variations of Solarized, set
+;; the frame’s background-mode. This can be accomplished globally
+;; using M-x customize-variable frame-background-mode or on a
+;; per-frame basis with (set-frame-parameter nil 'background-mode
+;; 'light) (or 'dark).
 
 ;; A minor mode that guesses the indentation offset originally used for creating source code files
 ;; and transparently adjusts the corresponding settings in Emacs, making it more convenient to edit foreign files.
