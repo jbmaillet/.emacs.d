@@ -16,8 +16,15 @@
 
 ;; Maximize + dark background
 (custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
  '(frame-background-mode (quote dark))
- '(initial-frame-alist (quote ((fullscreen . maximized)))))
+ '(initial-frame-alist (quote ((fullscreen . maximized))))
+ '(package-selected-packages
+   (quote
+    (yaml-mode use-package sr-speedbar markdown-mode magit-filenotify ibuffer-vc ibuffer-projectile fic-mode dtrt-indent company color-theme-solarized))))
 
 ;; No toolbar.
 (tool-bar-mode -1)
@@ -409,3 +416,9 @@ header"
 ;; C-c p s g run grep on the files in the project.
 ;; C-c p r   runs interactive query-replace on all files in the projects.
 ;; C-c p p   display a list of known projects you can switch to.
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
