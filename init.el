@@ -24,7 +24,7 @@
  '(initial-frame-alist (quote ((fullscreen . maximized))))
  '(package-selected-packages
    (quote
-    (yaml-mode use-package sr-speedbar markdown-mode magit-filenotify ibuffer-vc ibuffer-projectile fic-mode dtrt-indent company color-theme-solarized))))
+    (keyfreq yaml-mode use-package sr-speedbar markdown-mode magit-filenotify ibuffer-vc ibuffer-projectile fic-mode dtrt-indent company color-theme-solarized))))
 
 ;; No toolbar.
 (tool-bar-mode -1)
@@ -365,6 +365,24 @@ header"
 (use-package yaml-mode
   :mode (("\\.yaml\\'" . yaml-mode)
          ("\\.yml\\'" . yaml-mode)))
+
+;; Use `keyfreq-show' to see how many times you used a command.
+(use-package keyfreq
+  :init
+  (setq keyfreq-excluded-commands
+        '(self-insert-command
+          ;;abort-recursive-edit
+          ;;forward-char
+          ;;backward-char
+          ;;previous-line
+          ;;next-line
+          ;;newline
+          proj-open-file
+          save-buffer
+          yank))
+  :config
+  (keyfreq-mode 1)
+(keyfreq-autosave-mode 1))
 
 ;; Done with packages
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
