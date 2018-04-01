@@ -24,7 +24,7 @@
  '(initial-frame-alist (quote ((fullscreen . maximized))))
  '(package-selected-packages
    (quote
-    (typing speed-type keyfreq yaml-mode use-package sr-speedbar markdown-mode magit-filenotify ibuffer-vc ibuffer-projectile fic-mode dtrt-indent company color-theme-solarized))))
+    (mastodon typing speed-type keyfreq yaml-mode use-package sr-speedbar markdown-mode magit-filenotify ibuffer-vc ibuffer-projectile fic-mode dtrt-indent company color-theme-solarized))))
 
 ;; No toolbar.
 (tool-bar-mode -1)
@@ -383,6 +383,10 @@ header"
   :config
   (keyfreq-mode 1)
 (keyfreq-autosave-mode 1))
+
+(use-package mastodon
+  :load-path "/path/to/mastodon.el/lisp")
+(setq mastodon-instance-url "https://mastodon.technology/")
 
 ;; Done with packages
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
