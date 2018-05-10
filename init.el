@@ -24,7 +24,7 @@
  '(initial-frame-alist (quote ((fullscreen . maximized))))
  '(package-selected-packages
    (quote
-    (dockerfile-mode mastodon typing speed-type keyfreq yaml-mode use-package sr-speedbar markdown-mode magit-filenotify ibuffer-vc ibuffer-projectile fic-mode dtrt-indent company color-theme-solarized))))
+    (subatomic256-theme dockerfile-mode mastodon typing speed-type keyfreq yaml-mode use-package sr-speedbar markdown-mode magit-filenotify ibuffer-vc ibuffer-projectile fic-mode dtrt-indent company color-theme-solarized))))
 
 ;; No toolbar.
 (tool-bar-mode -1)
@@ -286,6 +286,13 @@ header"
 ;; per-frame basis with (set-frame-parameter nil 'background-mode
 ;; 'light) (or 'dark).
 
+;; 256 color them for terminal
+(load-theme 'subatomic256 t)
+;; automatically swich between solarized (GUI) and subatomic256 (terminal)
+(if (display-graphic-p)
+    (enable-theme 'solarized)
+  (enable-theme 'subatomic256))
+
 ;; A minor mode that guesses the indentation offset originally used for creating source code files
 ;; and transparently adjusts the corresponding settings in Emacs, making it more convenient to edit foreign files.
 (use-package dtrt-indent
@@ -385,7 +392,7 @@ header"
 (keyfreq-autosave-mode 1))
 
 (use-package mastodon
-  :load-path "/path/to/mastodon.el/lisp")
+  :load-path "~/.emacs.d/elpa/mastodon-20180305.1909/")
 (setq mastodon-instance-url "https://mastodon.technology/")
 
 ;; Done with packages
