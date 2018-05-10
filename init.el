@@ -24,7 +24,7 @@
  '(initial-frame-alist (quote ((fullscreen . maximized))))
  '(package-selected-packages
    (quote
-    (mastodon typing speed-type keyfreq yaml-mode use-package sr-speedbar markdown-mode magit-filenotify ibuffer-vc ibuffer-projectile fic-mode dtrt-indent company color-theme-solarized))))
+    (dockerfile-mode mastodon typing speed-type keyfreq yaml-mode use-package sr-speedbar markdown-mode magit-filenotify ibuffer-vc ibuffer-projectile fic-mode dtrt-indent company color-theme-solarized))))
 
 ;; No toolbar.
 (tool-bar-mode -1)
