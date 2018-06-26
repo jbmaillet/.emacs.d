@@ -35,6 +35,9 @@
 ;; Flash screen instead of beeping.
 (setq visible-bell t)
 
+;; For fill-paragraph (M-q)
+(setq-default fill-column 79)
+
 ;; Save last session state at exit.
 ;; note: default temp file is ~/.emacs.d/.emacs.desktop)
 (desktop-save-mode t)
