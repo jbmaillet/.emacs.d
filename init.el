@@ -14,17 +14,43 @@
 (load "server")
 (unless (server-running-p) (server-start))
 
+;; Note that elpy require pip install of flake8 and jedi
 ;; Maximize + dark background
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(ecb-options-version "2.50")
  '(frame-background-mode (quote dark))
  '(initial-frame-alist (quote ((fullscreen . maximized))))
  '(package-selected-packages
    (quote
-    (vagrant-tramp subatomic256-theme dockerfile-mode mastodon typing speed-type keyfreq yaml-mode use-package sr-speedbar markdown-mode magit-filenotify ibuffer-vc ibuffer-projectile fic-mode dtrt-indent company color-theme-solarized))))
+    (
+     ecb
+     elpy
+     vagrant-tramp
+     subatomic256-theme
+     dockerfile-mode
+     mastodon
+     typing
+     speed-type
+     keyfreq
+     yaml-mode
+     use-package
+     sr-speedbar
+     markdown-mode
+     magit-filenotify
+     ibuffer-vc
+     ibuffer-projectile
+     fic-mode
+     dtrt-indent
+     company
+     color-theme-solarized
+     )
+    )
+   )
+ )
 
 ;; No toolbar.
 (tool-bar-mode -1)
@@ -397,6 +423,9 @@ header"
 (use-package mastodon
   :load-path "~/.emacs.d/elpa/mastodon-20180305.1909/")
 (setq mastodon-instance-url "https://mastodon.technology/")
+
+;; doing mostly Python these days
+(elpy-enable)
 
 ;; Done with packages
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
